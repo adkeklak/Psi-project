@@ -88,3 +88,15 @@ if __name__ == '__main__':
         plt.ylabel('Actual')
         plt.title(f'Confusion Matrix: {model_path.split("/")[-1]}')
         plt.show()
+
+    for model_path in models:
+    
+        model = load(model_path)
+        for index, row in X_test.iterrows():
+            X_single_sample = pd.DataFrame([row])
+        
+            y_pred = model.predict(X_single_sample)
+        
+            print("Results for:")
+            print(f"{row}")
+            print(f"Prediction: {y_pred}")
