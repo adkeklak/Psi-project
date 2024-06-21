@@ -1,21 +1,21 @@
-Requirements:    
+## Requirements:    
 -Python 3.x    
 -Necessary Python packages (install using pip install -r requirements.txt):        
-    <li>pandas    
-    <li>joblib    
-    <li>scikit-learn    
+- 'pandas'    
+- 'joblib'    
+- 'scikit-learn'    
     <li>seaborn    
     <li>matplotlib    
     <li>xgboost    
     <li>imbalanced-learn    
     <li>scipy 
 
-Installing packages
+## Installing packages
 ```console
 pip install -r requirements.txt
 ```
 
-Data Files    
+## Data Files    
 The scripts requires the following data files:    
     <li>data/test_dataset.csv: The feature set for the test data(encoded).        
     <li>data/test_dataset_label.csv: The labels for the test data(encoded).            
@@ -23,7 +23,7 @@ The scripts requires the following data files:
     <li>models/*.joblib: Pre-trained models saved in the specified directory.    
 
 
-How to Use    
+## How to Use    
     <li>Data and models can also be preparred using start_learing.py or by running all cells in projekt.ipynd    
     <li>Prepare the Data: Ensure you have the test dataset and its labels in the data directory.    
     <li>Place the Models: Save your trained models in the models directory.    
@@ -31,14 +31,14 @@ How to Use
     <li>Script can also be run in test_m.ipynb    
 
 
-Teaching models
+## Teaching models
 ```console
 python model_learning.py
 ```
 or running all cells in projekt.ipynd
 
 
-Using models
+## Using models
 ```console
 python test_model.py
 ```

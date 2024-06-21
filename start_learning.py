@@ -27,7 +27,8 @@ class CreditRiskDataLoader:
         
         self.data = self.data.drop_duplicates()
         self.data = self.data.dropna()
-        
+        self.data = self.data[self.data['person_age'] < 100]
+
         self.label = self.data[self.target_column]
         self.data.drop([self.target_column], axis=1, inplace=True)
         
@@ -95,12 +96,12 @@ class CreditRiskClassifier:
         else:
             raise ValueError(f"Unsupported classifier type: {self.classifier_type}")
         
-    def train_model(self, X_train, y_train, param_grid, cv=5, scoring='roc_auc', n_iter=50, verbose=1, random_state=42):
+    def train_model(self, X_train, y_train, param_grid, cv=5, scoring='roc_auc', n_iter=100, verbose=10, random_state=42):
         self.grid_search = RandomizedSearchCV(
             estimator=self.pipeline, 
             param_distributions=param_grid, 
             n_iter=n_iter, 
-            cv= StratifiedKFold(n_splits=cv, random_state=123, shuffle=True), 
+            cv=StratifiedKFold(n_splits=cv, random_state=123, shuffle=True), 
             scoring=scoring, 
             random_state=random_state, 
             verbose=verbose
@@ -136,12 +137,12 @@ if __name__ == '__main__':
     
     data_loader = CreditRiskDataLoader(data_path, categorical_features, numeric_features, target_column)
     
-    data, label = data_loader.load_data()
+    data_loader.load_data()
     preprocessed_data = data_loader.preprocess_data()
     
     X_train, X_test, y_train, y_test = data_loader.get_train_test_split()
 
-    classifiers = ['RFC', 'XGB', 'RFC_under', 'XGB_under']
+    classifiers = ['XGB'] #,'RFC', 'RFC_under', 'XGB_under']
     param_grid_XGB = {
             'classifier__learning_rate': uniform(0.01, 0.5),
             'classifier__max_depth': randint(3, 10),

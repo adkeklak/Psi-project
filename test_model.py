@@ -18,8 +18,6 @@ class CreditRiskDataLoader:
     
     def preprocess_data_from(self, path):
         data = pd.read_csv(path)
-        self.y = data['loan_status']
-        data.drop(['loan_status'], axis=1, inplace=True)
         self.X = data
         self.X = self.X.drop_duplicates()
         self.X = self.X.dropna()
@@ -38,7 +36,10 @@ class CreditRiskDataLoader:
             'N': 0, 
             'Y': 1, 
             }
-        self.X['cb_person_default_on_file'] = self.X['cb_person_default_on_file'].map(mapping1)
+        self.X['cb_person_default_on_file'] = self.X['cb_person_default_on_file'].map(mapping1)        
+        self.X = self.X[self.X['person_age'] < 100]
+        self.y = self.X['loan_status']
+        self.X.drop(['loan_status'], axis=1, inplace=True)
         self.X.info()
         
         return self.X, self.y
@@ -55,8 +56,8 @@ if __name__ == '__main__':
     ]
 
     data_loader = CreditRiskDataLoader(x_data_path, y_data_path)
-    X_test, y_test = data_loader.load_data()
-    # X_test, y_test = data_loader.preprocess_data_from_file(data_path)
+    #X_test, y_test = data_loader.load_data()
+    X_test, y_test = data_loader.preprocess_data_from(data_path)
 
     for model_path in models:
         model = load(model_path)
@@ -98,5 +99,5 @@ if __name__ == '__main__':
             y_pred = model.predict(X_single_sample)
         
             print("Results for:")
-            print(f"{row}")
+            #print(f"{row}")
             print(f"Prediction: {y_pred}")
